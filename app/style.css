@@ -3,7 +3,7 @@
 body { margin: 0; border-top: 8px solid #012169; }
 header, main, footer { width: min(100% - 3rem, 72rem); margin-inline: auto; }
 header { padding-block: 3rem 2rem; }
-h1, h2, h3 { color: #012169; }
+h1, h2, h3 { color: #012169; overflow-wrap: anywhere; }
 h1 { font: 400 clamp(2.4rem, 6vw, 4.8rem)/1.08 Georgia, serif; margin: .75rem 0 1.5rem; letter-spacing: -.025em; }
 h2 { font: 400 1.8rem/1.2 Georgia, serif; margin: 0; }
 h3 { margin: 2rem 0 .5rem; font-size: 1.15rem; }
@@ -12,6 +12,7 @@ p { max-width: 75ch; }
 .intro { max-width: 50ch; font-size: 1.2rem; }
 section, aside { border-top: 1px solid #666; padding-block: 2rem; }
 .section-title { display: flex; align-items: baseline; gap: 1rem; }
+.section-title h2 { min-width: 0; }
 .step { font: .85rem ui-monospace, monospace; color: #666; }
 .fields { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.25rem; margin-block: 1.5rem; }
 label { display: block; font-weight: bold; font-size: .9rem; margin-bottom: .4rem; }
@@ -45,3 +46,4 @@ a:hover { color: #00539B; }
 [hidden] { display: none; }
 @media (max-width: 850px) { .fields, .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 450px) { header, main, footer { width: calc(100% - 2rem); } header { padding-top: 2rem; } .fields { grid-template-columns: 1fr; } .metrics div { padding: .85rem; } dd { font-size: 2rem; } }
+#timeline svg { width:100%; max-width:50rem; display:block; font:16px Arial,sans-serif; } #comparison { overflow-x:auto; } details { margin:1.5rem 0; } summary { cursor:pointer; padding:.5rem 0; } details label { display:block; margin:.8rem 0; } button:disabled { background:#E5E5E5; color:#666; border-color:#666; cursor:default; } [hidden] { display:none; } #restore-run { max-width:100%; } #ledger td:last-child { min-width:16rem; white-space:normal; }

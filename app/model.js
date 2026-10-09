@@ -36,16 +36,18 @@ export function simulate(input) {
   for (let day = 1; day <= p.days; day++) {
     const arrivals = pending.filter(order => order.due === day).reduce((sum, order) => sum + order.units, 0);
     pending = pending.filter(order => order.due > day);
+    const opening = stock;
     stock += arrivals;
     state = (Math.imul(1664525, state) + 1013904223) >>> 0;
     const demand = p.minimum + Math.floor(state / 4294967296 * (p.maximum - p.minimum + 1));
     const sales = Math.min(stock, demand);
     const unmet = demand - sales;
     stock -= sales;
-    const position = stock + pending.reduce((sum, order) => sum + order.units, 0);
+    const onOrder = pending.reduce((sum, order) => sum + order.units, 0);
+    const position = stock + onOrder;
     const ordered = position <= p.reorder ? p.quantity : 0;
     if (ordered) pending.push({ due: day + p.lead, units: ordered });
-    rows.push({ day, arrivals, demand, sales, unmet, closing: stock, ordered });
+    rows.push({ day, opening, arrivals, demand, sales, unmet, closing: stock, onOrder, position, ordered, nextDue: pending.length ? Math.min(...pending.map(order => order.due)) : 0 });
     totals.demand += demand;
     totals.sales += sales;
     totals.unmet += unmet;
@@ -54,7 +56,18 @@ export function simulate(input) {
   }
   return {
     rows, ...totals, endingStock: stock,
+    stockoutDays: rows.filter(row => row.unmet > 0).length,
+    averageStock: rows.reduce((sum, row) => sum + row.closing, 0) / p.days,
     outstanding: pending.reduce((sum, order) => sum + order.units, 0),
     fillRate: totals.demand ? totals.sales / totals.demand : null,
   };
+}
+
+export function readRunRecord(text) {
+  const saved=JSON.parse(text);
+  if(saved.format!=='inventory-policy-lab-v1'||!saved.inputs) throw Error('Choose an Inventory policy lab run record.');
+  if(Object.keys(fields).some(key=>typeof saved.inputs[key]!=='number')) throw Error('Saved inputs must be JSON numbers, not strings or booleans.');
+  const errors=validate(saved.inputs);
+  if(Object.keys(errors).length) throw Error(Object.values(errors).join(' '));
+  return Object.fromEntries(Object.keys(fields).map(key=>[key,saved.inputs[key]]));
 }

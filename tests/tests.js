@@ -1,4 +1,4 @@
-import { simulate } from '../app/model.js';
+import { simulate, readRunRecord } from '../app/model.js';
 
 const base = { initial: 10, minimum: 0, maximum: 8, reorder: 5, quantity: 10, lead: 2, days: 30, seed: 42 };
 const assert = (condition, message) => { if (!condition) throw new Error(message); };
@@ -80,5 +80,20 @@ test('Invalid, missing, fractional and out-of-range inputs are rejected', () => 
   return `${invalid.length} invalid cases rejected`;
 });
 
+test('Position before ordering and next due dates explain delayed deliveries', () => {
+  const r=simulate({...base,initial:5,minimum:4,maximum:4,reorder:3,quantity:6,days:5});
+  equal(r.rows.map(x=>[x.opening,x.onOrder,x.position,x.nextDue]),[[5,0,1,3],[1,6,6,3],[0,0,2,5],[2,6,6,5],[0,0,2,7]]);
+  equal([r.stockoutDays,r.averageStock],[2,1]);
+});
+test('Compared policies share demand but change inventory outcomes', () => {
+  const input={...base,initial:5,minimum:4,maximum:4,reorder:3,quantity:6,days:5};
+  const a=simulate(input),b=simulate({...input,reorder:6});
+  equal(a.rows.map(x=>x.demand),b.rows.map(x=>x.demand));
+  equal([b.sales,b.fillRate,b.averageStock,b.endingStock,b.outstanding],[17,.85,1.4,0,12]);
+});
+test('Saved run inputs reject coerced values before changing the form', () => {
+  equal(readRunRecord(JSON.stringify({format:'inventory-policy-lab-v1',inputs:base})),base);
+  for(const initial of [true,'0x10','10',null]) { let rejected=false; try{readRunRecord(JSON.stringify({format:'inventory-policy-lab-v1',inputs:{...base,initial}}));}catch{rejected=true;} assert(rejected,`Accepted ${initial}`); }
+});
 document.querySelector('#summary').textContent = `${passed} passed; ${failed} failed.`;
 document.documentElement.dataset.testResult = failed ? 'fail' : 'pass';

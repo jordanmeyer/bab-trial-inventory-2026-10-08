@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Explore a synthetic single-item reorder policy with repeatable daily demand.">
   <title>Inventory policy lab</title>
-  <link rel="stylesheet" href="./style.css">
-  <script type="module" src="./app.js?v=2"></script>
+  <link rel="stylesheet" href="./style.css?v=4">
+  <script type="module" src="./app.js?v=4"></script>
 </head>
 <body>
   <header>
@@ -15,29 +15,33 @@
     <p class="intro">When should you replenish? Follow one item from demand to delivery, and see where a reorder policy falls short.</p>
   </header>
   <main>
+    <p><a href="#results-heading">View sample-path result</a> · <a href="./learn.html">Predict the next delivery</a></p>
     <section aria-labelledby="inputs-heading" class="inputs">
       <div class="section-title"><span class="step">01</span><h2 id="inputs-heading">Set your policy</h2></div>
-      <p>Whole units. Lost demand is never backlogged.</p>
+      <p>Whole units; lost demand is not backlogged. End-of-day review places at most one fixed-size order when closing stock plus outstanding orders is at or below the reorder point. This is neither continuous review nor an order-up-to policy.</p>
       <form id="simulation" novalidate>
         <div id="fields" class="fields"></div>
         <div class="actions"><button type="submit">Run simulation</button><button type="button" id="reset-defaults" class="secondary">Reset defaults</button><button type="button" id="delayed-example" class="secondary">Load delayed-delivery example</button></div>
       </form>
-      <p id="status" role="status">Loading the simulation module…</p>
+      <label>Restore saved run JSON <input id="restore-run" type="file" accept=".json,application/json"></label><p id="status" role="status">Loading the simulation module…</p>
     </section>
     <section aria-labelledby="results-heading" id="results" hidden>
-      <div class="section-title"><span class="step">02</span><h2 id="results-heading">Read the outcome</h2></div>
-      <p id="run-label"></p>
+      <div class="section-title"><span class="step">02</span><h2 id="results-heading" tabindex="-1">Read the outcome</h2></div>
+      <p id="run-label"></p><p>One seeded sample path, not an estimate of expected policy service. Compare seeds before drawing a general conclusion. No inventory or ordering costs are modeled: better fill alone does not establish an economic optimum.</p>
       <dl class="metrics">
         <div><dt>Demand fill rate</dt><dd id="fill"></dd></div>
         <div><dt>Unmet demand</dt><dd id="unmet"></dd></div>
         <div><dt>Orders placed</dt><dd id="orders"></dd></div>
         <div><dt>Ending stock</dt><dd id="stock"></dd></div>
       </dl>
-      <p id="summary"></p>
+      <p id="summary"></p><p id="service-note"></p>
+      <h3>Stock and arrivals</h3><p>Line: closing stock; circles: morning arrivals. Exact values and decisions are in the ledger below.</p><div id="timeline"></div>
+      <details><summary>Compare a policy on exactly the same demand path</summary><p>Only reorder point and order quantity change. The horizon, demand inputs and seed stay fixed. This isolates service and inventory consequences; neither policy is declared economically best.</p><label>Comparison reorder point<input id="compare-reorder" type="number" min="0" max="10000" value="8"></label><label>Comparison order quantity<input id="compare-quantity" type="number" min="1" max="10000" value="10"></label><button id="compare" type="button">Compare policies</button><p id="compare-status" role="status"></p><div id="comparison" class="table-scroll" tabindex="0"></div></details>
+      <p><button id="save-run" type="button">Save complete run JSON</button></p><p>Save before leaving this tab; reload restores defaults. The record includes all assumptions, event order, seed, results and ledger.</p>
       <h3>Daily stock ledger</h3>
-      <p class="table-help" id="ledger-help">All quantities are units. Scroll the table horizontally on a small screen.</p>
+      <p class="table-help" id="ledger-help">All quantities are units. On order and position are measured after arrivals/sales, before a new order. Next due is a day number (— means none). Final-day orders continue beyond this reporting window. Scroll the exact table horizontally on a small screen.</p><div class="actions"><button id="previous" type="button" class="secondary">Previous 15 days</button><span id="page-status" role="status"></span><button id="next" type="button" class="secondary">Next 15 days</button></div>
       <div class="table-scroll" role="region" aria-label="Daily stock ledger" aria-describedby="ledger-help" tabindex="0">
-        <table><thead><tr><th scope="col">Day</th><th scope="col">Arrivals</th><th scope="col">Demand</th><th scope="col">Sales</th><th scope="col">Unmet</th><th scope="col">Closing stock</th><th scope="col">Ordered</th></tr></thead><tbody id="ledger"></tbody></table>
+        <table><thead><tr><th scope="col">Day</th><th scope="col">Opening</th><th scope="col">Arrivals</th><th scope="col">Demand</th><th scope="col">Sales</th><th scope="col">Unmet</th><th scope="col">Closing stock</th><th scope="col">On order before decision</th><th scope="col">Position before decision</th><th scope="col">Ordered</th><th scope="col">Next due day</th><th scope="col">Decision</th></tr></thead><tbody id="ledger"></tbody></table>
       </div>
     </section>
     <aside aria-labelledby="model-heading">
