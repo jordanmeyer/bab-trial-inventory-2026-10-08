@@ -24,3 +24,23 @@ Actual parent observations:
 - **FAIL:** clicking or keyboard-activating Reset defaults throws `TypeError: form.reset is not a function` at app.js:44. The form-associated control id `reset` shadows the form's native reset method. This required UI failure makes the round non-passing despite all model tests passing.
 
 Build repair: rename the button id and selector to `reset-defaults`, preserving native `form.reset()`. No model, tests, plan or workflow changes. Actual reset retest and renewed final checkpoint are required. The simulated student confirmed the uniform teaching-model assumptions and limitations, including no forecast claim, calibration, seasonality, supplier delays, costs or optimization.
+
+## Round 2 — passing evaluation after reset repair
+Tested full commit: `dd5009db75111a09266c8a44a3ab96e07837a074`. Paths: `app/`, `tests/`, `.github/workflows/`. Agreed PLAN.md is present at this checkpoint and substantively unchanged. Evaluation performed by parent coordinator with actual browser tools at the no-store `http://127.0.0.1:9100/inventory/app/` and `/inventory/tests/` previews. Existing loopback server is a cache-control preview aid, not app/deployment runtime tooling.
+
+Actual repaired-source observations:
+- All 10 browser test groups rerun: **10 passed, 0 failed**. They include complete hand-derived stock transitions, lead-time and inclusive-threshold boundaries, no demand, seed recurrence/repetition, 365-day conservation over 20 seeds, demand bounds/integrality, the predeclared statistical interval, upper limits, and 14 rejected invalid cases.
+- Changed initial stock, then pressed Enter on Reset defaults: defaults and results restored successfully.
+- Set zero demand, then clicked Reset defaults: defaults and results restored successfully.
+- Seed 42, five days: demand sequence 2,0,5,2,3; ending stock 8 and one order, matching the independent recurrence and ledger calculation.
+- Zero-demand scenario: N/A fill, stock 10 and no orders. Expected because demand is zero and initial stock exceeds the reorder point.
+- Browser logs retain the earlier timestamped reset error; **no new errors after the fix**. Earlier error remains documented in Round 1.
+
+Unchanged behavior verified in Round 1 carries forward: five-day fixed-demand known answer and exact ledger; reversed-bound validation, hidden stale results and focus; legible desktop/narrow screenshots at iframe widths 1439/319 with no page overflow. The repair changed only a button id and its selector; model, tests, layout and workflow are unchanged. Parent confirmed assumptions and limits with the simulated student.
+
+Freshness checked immediately before the repaired run and again after the observations: committed/staged/unstaged relevant-path diffs all exited 0; `git ls-files --others -- app/ tests/ .github/workflows/` was empty, including ignored source; baseline PLAN.md existed, current plan diff was empty and plan status clean. Whole-project inventory found no extra executable tooling. Review of all three commits found only original/synthetic source, approved attribution and public-safe reports. No force push, history rewrite or credentials.
+
+Result: required model and exercised UI checks pass; ready for authorized publication with limitations below. Report-only commits may follow without changing this evaluated checkpoint.
+
+### Inspection limits
+Browser version, full network capture and 200% text zoom were not recorded. No universal network-isolation or accessibility certification is claimed. Source review found local modules/styles only and no service requests, storage or remote assets. The rendered views were visually legible; computed-color contrast and full assistive-technology behavior were not instrumented. This stochastic model sanity check does not validate real retailer demand or prescribe an optimal policy.
