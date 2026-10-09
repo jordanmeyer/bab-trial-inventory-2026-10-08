@@ -107,9 +107,26 @@ Source/staging whitespace checks passed. Source/plan/tests were committed before
 
 ### Current-checkpoint browser suite confirmation
 
-After the source/report commits, root reran the actual browser suite against the current files: **13/13 passed, zero failures**, including the final review labels and current asset references. Source checkpoint remains `cc3f6e1d183508aa658db0ac94504f73745d87ed`; no app/model/test change followed the run. For Sales this supersedes the earlier timing limitation on the model-suite observation; the prior observation remains truthful history. This new suite result does not close pending actual layout, export, mobile-keyboard, screen-reader or novice tasks. No push occurred.
+After the source/report commits, root reran the actual browser suite against the current files: **13/13 passed, zero failures**, including the final review labels and current asset references. Source checkpoint remains `cc3f6e1d183508aa658db0ac94504f73745d87ed`; no app/model/test change followed the run. This new suite result does not close pending actual layout, export, mobile-keyboard, screen-reader or novice tasks. No push occurred.
 
 
 ### Scoped result-view layout witness
 
 Root subsequently pictured the current result at an actual 319 CSS-pixel narrow width and in a separate nominal 1280px frame with authored 200% computed-font enlargement. The displayed result was readable and page client/scroll widths matched. These are result-view observations, not complete coverage of every expanded table, disclosure, input state or reachable control, and not native device zoom. ALL-12 remains open for broader task coverage; screen-reader and novice gates remain open. No source change or push accompanied this record.
+
+
+### Actual saved-record round trip
+
+Root executed tests/save-restore-workflow.html at tests checkpoint84a0d4b09db4eeb161f992b3747c746df0d7c6f4 against unchanged app sourcecc3f6e1:5/5 actual browser cases passed. Generated JSON contained all eight numeric assumptions, the independent five-day ledger/totals, source URL and event convention. After actually running initial0/seed99 (50% fill), File/DataTransfer restore returned the saved five-day75% case and reproduced the complete re-saved JSON. Malformed JSON and coercible string input "0x10" rejected without changing any input/result/ledger cell or the underlying saved record; valid reselection recovered afterward. See browser-save-restore.json. An independent data-agent source review found no actionable race or false-pass path. Only the native Blob download click was intercepted; no native picker or disk-save claim.
+
+Root subsequently observed the one-day chart at319px: its visible closing-stock point and100%fill/4of4sales/stock1 matched the ledger (INV-08). The same visual inspection found actual tiny chart labels around6.7CSS pixels because the fixed600-unit viewBox scaled to a narrow container. This is an ALL-12 failure retained separately from the passing numerical/point result; narrow-one-day.png records it. A container-sized SVG correction is being prepared and requires actual retest before closure.
+
+
+The narrow-label repair is committed at ff6c1bd0724a163942ba74cdfc516a047484c46e (app/PLAN/BUILD-STORY; model and test harnesses unchanged). It draws SVG geometry at the current container width with14px baseline inherited text, font-relative margins/height and a local ResizeObserver. Results are visible before width measurement. Syntax/whitespace checks and independent complete-controller/CSS/HTML source review passed; actual narrow and enlarged-text retest is still pending. Asset entry versions advance to5 because an earlier live round demonstrated stale entry caching.
+
+
+## Actual chart repair retest — ff6c1bd
+
+Root's targeted actual-browser retest passed. At 319 CSS pixels the one-day SVG had viewBox `0 0 288 224`, rendered approximately287.69×223.98px, and14px labels: the closing point at1 unit/day1 was visible and readable. Reset to the default30-day run retained readable labels, the stock line and arrival circles at the same size. In a separate nominal1280px frame with authored200% text, the SVG used1184×448 geometry and28px labels; Units, Day1–30, maximum14 and arrivals were readable. See browser-chart-reflow.json, narrow-one-day-fixed.png and enlarged-chart-fixed.png. Retain narrow-one-day.png as the failed pre-repair capture. This closes the observed chart-label defect and supplies the bounded INV-08 rendered witness; broader ALL-12 task views, actual device zoom, screen-reader and novice evidence remain separate.
+
+Source/model/test freshness: app/PLAN/BUILD-STORY/tests and workflow comparisons against ff6c1bd0724a163942ba74cdfc516a047484c46e are clean; only this report follows the source checkpoint. The model is unchanged from the observed13/13 browser suite, and the save/restore harness is unchanged from root's actual5/5 at84a0d4b before the chart repair. Neither suite is claimed newly rerun after this rendering-only change. No push or current live deployment occurred.
