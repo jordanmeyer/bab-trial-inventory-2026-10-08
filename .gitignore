@@ -1,0 +1,6 @@
+/dist/
+/local-inputs/
+.DS_Store
+Thumbs.db
+.env
+.env.*
