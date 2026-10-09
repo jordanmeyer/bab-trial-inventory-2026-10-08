@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Inventory save and restore workflow</title><style>body{font:16px/1.5 system-ui,sans-serif;margin:24px;color:#262626}button{font:inherit;padding:12px 18px}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f2f1;padding:16px;max-width:1000px}iframe{display:block;width:1280px;height:844px;border:1px solid #666;margin-top:24px}</style></head>
+<body><h1>Inventory save and restore workflow</h1><p>This authored check clicks the real app controls, captures the generated JSON Blob, and supplies synthetic File/DataTransfer events to the real restore input. It suppresses only the native download click. It does not operate a native picker, save a file to disk or constitute a novice walkthrough. Run identity means the complete entered assumptions and resulting ledger; this app does not retain an imported filename as a separate source label.</p><button id="run" disabled>Run save/restore checks</button><p id="status" role="status">Loading the app…</p><pre id="report">No observations yet.</pre><iframe title="Inventory application under test" src="../app/"></iframe>
+<script>
+const frame=document.querySelector('iframe'), run=document.querySelector('#run'), status=document.querySelector('#status'), report=document.querySelector('#report');
+const fields=['initial','minimum','maximum','reorder','quantity','lead','days','seed'];
+const expectedInputs={initial:5,minimum:4,maximum:4,reorder:3,quantity:6,lead:2,days:5,seed:42};
+const expectedRows=[
+ {day:1,opening:5,arrivals:0,demand:4,sales:4,unmet:0,closing:1,onOrder:0,position:1,ordered:6,nextDue:3},
+ {day:2,opening:1,arrivals:0,demand:4,sales:1,unmet:3,closing:0,onOrder:6,position:6,ordered:0,nextDue:3},
+ {day:3,opening:0,arrivals:6,demand:4,sales:4,unmet:0,closing:2,onOrder:0,position:2,ordered:6,nextDue:5},
+ {day:4,opening:2,arrivals:0,demand:4,sales:2,unmet:2,closing:0,onOrder:6,position:6,ordered:0,nextDue:5},
+ {day:5,opening:0,arrivals:6,demand:4,sales:4,unmet:0,closing:2,onOrder:0,position:2,ordered:6,nextDue:7}
+];
+const assert=(condition,message)=>{if(!condition)throw Error(message);};
+const equal=(actual,expected,message)=>assert(JSON.stringify(actual)===JSON.stringify(expected),message);
+function waitFor(d,condition){return new Promise((resolve,reject)=>{const check=()=>{if(!condition())return;observer.disconnect();clearTimeout(timer);resolve();};const observer=new MutationObserver(check),timer=setTimeout(()=>{observer.disconnect();reject(Error('Expected restore state did not arrive within 20 seconds.'));},20000);observer.observe(d.body,{subtree:true,childList:true,characterData:true,attributes:true});check();});}
+frame.addEventListener('load',()=>{run.disabled=false;status.textContent='Ready. The app, model and download payload are not stubbed.';});
+run.onclick=async()=>{
+ run.disabled=true;status.textContent='Running actual-app save/restore checks…';const records=[],d=frame.contentDocument,w=frame.contentWindow,$=id=>d.getElementById(id);
+ const createURL=w.URL.createObjectURL,anchorClick=w.HTMLAnchorElement.prototype.click,blobs=new Map(),downloads=[];
+ w.URL.createObjectURL=function(blob){const url=createURL.call(this,blob);blobs.set(url,blob);return url;};
+ w.HTMLAnchorElement.prototype.click=function(...args){if(this.download&&blobs.has(this.href)){downloads.push({filename:this.download,blob:blobs.get(this.href)});return;}return anchorClick.apply(this,args);};
+ const snapshot=()=>({inputs:Object.fromEntries(fields.map(name=>[name,$(name).value])),resultsHidden:$('results').hidden,runLabel:$('run-label').textContent,fill:$('fill').textContent,unmet:$('unmet').textContent,orders:$('orders').textContent,stock:$('stock').textContent,summary:$('summary').textContent,service:$('service-note').textContent,page:$('page-status').textContent,ledger:[...d.querySelectorAll('#ledger tr')].map(tr=>[...tr.cells].map(td=>td.textContent))});
+ function record(name,observation){records.push({name,passed:true,...observation});report.textContent=JSON.stringify({observations:records},null,2);}
+ async function save(){const before=downloads.length;$('save-run').click();assert(downloads.length===before+1,'Save did not generate exactly one downloadable Blob.');const download=downloads.at(-1),text=await download.blob.text();return {filename:download.filename,type:download.blob.type,bytes:download.blob.size,text,value:JSON.parse(text)};}
+ async function restore(text,name,expectedStatus){
+  const previous=$('status').textContent,transfer=new w.DataTransfer();transfer.items.add(new w.File([text],name,{type:'application/json'}));$('restore-run').files=transfer.files;
+  let dispatched=false;const complete=waitFor(d,()=>dispatched&&$('status').textContent!==previous&&expectedStatus($('status').textContent));
+  dispatched=true;$('restore-run').dispatchEvent(new w.Event('change',{bubbles:true}));await complete;
+  assert($('restore-run').value==='','Restore did not clear the file control for reselection.');return {file:name,status:$('status').textContent,state:snapshot()};
+ }
+ try{
+  $('delayed-example').click();const baseline=snapshot(),saved=await save();
+  assert(!baseline.resultsHidden&&baseline.fill==='75.0%','Delayed preset did not produce the independent 75% result.');
+  equal(saved.value.inputs,expectedInputs,'Saved assumptions differ from the independent five-day specification.');
+  equal(saved.value.summary.rows,expectedRows,'Saved complete ledger differs from the independent five-day derivation.');
+  const expectedSummary={demand:20,sales:15,unmet:5,received:12,ordersPlaced:3,endingStock:2,stockoutDays:2,averageStock:1,outstanding:6,fillRate:.75};
+  equal(Object.fromEntries(Object.keys(expectedSummary).map(key=>[key,saved.value.summary[key]])),expectedSummary,'Saved summary differs from independent totals.');
+  assert(saved.value.format==='inventory-policy-lab-v1'&&saved.filename==='inventory-seed-42.json'&&saved.type==='application/json','Record format, filename or MIME type is wrong.');
+  assert(saved.value.source===w.location.href,'Record source does not identify the actual app URL.');
+  assert(saved.value.eventOrder.includes('morning arrivals')&&saved.value.eventOrder.includes('at most one order if position <= point')&&saved.value.eventOrder.includes('Due day = order day + lead.'),'Record omits the event convention.');
+  record('Actual generated JSON contains all assumptions, source, event convention, summary and all five exact rows',{filename:saved.filename,type:saved.type,bytes:saved.bytes,record:saved.value,visible:baseline});
+
+  for(const [key,value] of Object.entries({initial:0,seed:99})){$(key).value=value;$(key).dispatchEvent(new w.Event('input',{bubbles:true}));}
+  assert($('results').hidden,'Edited assumptions left stale results visible.');$('simulation').requestSubmit();
+  const altered=snapshot();assert(!altered.resultsHidden&&altered.inputs.initial==='0'&&altered.inputs.seed==='99'&&altered.summary!==baseline.summary,'Changed assumptions were not run before restore.');
+  const restored=await restore(saved.text,'inventory-workflow-saved.json',text=>text.startsWith('Restored inputs from inventory-workflow-saved.json;'));
+  equal(restored.state,baseline,'Restore did not return every visible input, summary and ledger cell to the saved run.');
+  const resaved=await save();equal(resaved.value,saved.value,'Re-saved actual record differs after restore/recalculation.');
+  record('Changed and ran a different case, then restored the real saved Blob and reproduced the complete record',{altered,restored,resavedRecord:resaved.value});
+
+  const beforeMalformed=snapshot();const malformed=await restore('{"format":','inventory-workflow-malformed.json',text=>text.startsWith('Record rejected:'));
+  equal(malformed.state,beforeMalformed,'Malformed JSON changed the last valid run.');
+  assert(malformed.status.includes('Previous inputs and result retained.'),'Rejected-record status does not explain retained state.');
+  record('Malformed JSON rejects without changing any input, result or displayed ledger cell',malformed);
+
+  const wrongType={...saved.value,inputs:{...saved.value.inputs,initial:'0x10'}};const beforeString=snapshot();
+  const stringTyped=await restore(JSON.stringify(wrongType),'inventory-workflow-string-input.json',text=>text.includes('Saved inputs must be JSON numbers, not strings or booleans.'));
+  equal(stringTyped.state,beforeString,'String-typed numeric input changed the last valid run.');
+  const afterRejected=await save();equal(afterRejected.value,saved.value,'Rejected inputs changed the underlying saved record despite a retained display.');
+  record('Coercible string input rejects before mutation; visible and saved run identity remain intact',{...stringTyped,savedAfterRejection:afterRejected.value});
+
+  const recovered=await restore(saved.text,'inventory-workflow-saved.json',text=>text.startsWith('Restored inputs from inventory-workflow-saved.json;'));
+  equal(recovered.state,baseline,'Valid file did not recover after rejected files.');record('Valid file can be reselected after both rejection paths',recovered);
+  status.textContent='5/5 passed. Actual app save/restore behavior under authored browser events; no native picker or disk-save claim.';
+ }catch(error){records.push({passed:false,error:error.message,current:snapshot()});status.textContent='FAILED — '+error.message;}
+ finally{w.URL.createObjectURL=createURL;w.HTMLAnchorElement.prototype.click=anchorClick;blobs.clear();run.disabled=false;}
+ report.textContent=JSON.stringify({scope:'Actual app controls and generated JSON Blob; native download click suppressed; synthetic File/DataTransfer restore events. No native picker, disk save or human evidence.',sourceURL:w.location.href,environment:{userAgent:navigator.userAgent,frameWidth:w.innerWidth,frameHeight:w.innerHeight},observations:records},null,2);
+};
+</script></body></html>
