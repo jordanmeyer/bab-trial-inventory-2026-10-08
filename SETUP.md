@@ -12,3 +12,6 @@ Frozen Browser App Builder 0.1.1 (source c8bb0e5) supplies the five workflow ski
 - The agent needed the authorized-directory sandbox escalation to write this sibling project. No permission or runtime workaround was used.
 
 Initial history contains only the starter and this setup record. Setup is incomplete until the parent confirms the actual starter interaction.
+
+## Verified starter handoff
+Parent browser observation on 2026-10-08: `/app/` showed “JavaScript module loaded. Preview is ready.” Activating **Check interaction** changed it to “Interaction works. Ready to plan your app.” Starter history commit: `e731c4911031aa394123f08b3eb3e2694e7be65e`. Setup is complete; the starter can be replaced. No browser observation is inferred from HTTP/source checks.

@@ -1,0 +1,5 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Inventory model checks</title><link rel="stylesheet" href="../app/style.css"></head>
+<body><main><h1>Inventory model checks</h1><p>Independent expected cases are derived in PLAN.md. These checks import the actual application model.</p><p id="summary" role="status">Loading tests… If this remains visible, the tests have not passed.</p><ol id="checks"></ol><p><a href="../app/">Open simulation</a></p></main><script type="module">import('./tests.js').catch(error => { document.querySelector('#summary').textContent = `ERROR: ${error.message}`; });</script></body>
+</html>

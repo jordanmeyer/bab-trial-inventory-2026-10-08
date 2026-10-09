@@ -3,18 +3,49 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Your browser app</title>
+  <meta name="description" content="Explore a synthetic single-item reorder policy with repeatable daily demand.">
+  <title>Inventory policy lab</title>
   <link rel="stylesheet" href="./style.css">
   <script type="module" src="./app.js"></script>
 </head>
 <body>
+  <header>
+    <p class="eyebrow">OPERATIONS · SIMULATION</p>
+    <h1>Inventory policy lab</h1>
+    <p class="intro">When should you replenish? Follow one item from demand to delivery, and see where a reorder policy falls short.</p>
+  </header>
   <main>
-    <p class="eyebrow">Local project · Starter preview</p>
-    <h1>Your browser app starts here.</h1>
-    <p>Define a useful problem, make the assumptions explicit, and check the result.</p>
-    <button type="button" id="check">Check interaction</button>
-    <p id="status" role="status">Waiting for the JavaScript module. Open this page through your project preview.</p>
-    <aside>This is a starter, not an evaluated application. Plan the behavior before building it.</aside>
+    <section aria-labelledby="inputs-heading" class="inputs">
+      <div class="section-title"><span class="step">01</span><h2 id="inputs-heading">Set your policy</h2></div>
+      <p>Whole units. Lost demand is never backlogged.</p>
+      <form id="simulation" novalidate>
+        <div id="fields" class="fields"></div>
+        <div class="actions"><button type="submit">Run simulation</button><button type="button" id="reset" class="secondary">Reset defaults</button></div>
+      </form>
+      <p id="status" role="status">Loading the simulation module…</p>
+    </section>
+    <section aria-labelledby="results-heading" id="results" hidden>
+      <div class="section-title"><span class="step">02</span><h2 id="results-heading">Read the outcome</h2></div>
+      <p id="run-label"></p>
+      <dl class="metrics">
+        <div><dt>Demand fill rate</dt><dd id="fill"></dd></div>
+        <div><dt>Unmet demand</dt><dd id="unmet"></dd></div>
+        <div><dt>Orders placed</dt><dd id="orders"></dd></div>
+        <div><dt>Ending stock</dt><dd id="stock"></dd></div>
+      </dl>
+      <p id="summary"></p>
+      <h3>Daily stock ledger</h3>
+      <p class="table-help" id="ledger-help">All quantities are units. Scroll the table horizontally on a small screen.</p>
+      <div class="table-scroll" role="region" aria-label="Daily stock ledger" aria-describedby="ledger-help" tabindex="0">
+        <table><thead><tr><th scope="col">Day</th><th scope="col">Arrivals</th><th scope="col">Demand</th><th scope="col">Sales</th><th scope="col">Unmet</th><th scope="col">Closing stock</th><th scope="col">Ordered</th></tr></thead><tbody id="ledger"></tbody></table>
+      </div>
+    </section>
+    <aside aria-labelledby="model-heading">
+      <div class="section-title"><span class="step">03</span><h2 id="model-heading">Know the assumptions</h2></div>
+      <p>Each day starts with arrivals, then demand and sales. At day's end, stock plus outstanding orders is compared with the reorder point. At or below the point, one fixed-size order is placed. An order placed on day 1 with a two-day lead time arrives at the start of day 3.</p>
+      <p>Every integer between minimum and maximum demand is equally likely. The seed makes a run repeatable. <strong>Uniform demand is a teaching assumption, not a forecast.</strong> This model omits seasonality, supplier delays, costs and optimization. Zero demand has no fill rate.</p>
+    </aside>
   </main>
+  <footer><p>Independent educational demonstration. No institutional affiliation or endorsement.</p><a href="https://github.com/jordanmeyer/bab-trial-inventory-2026-10-08">View source and evaluation</a></footer>
 </body>
 </html>
