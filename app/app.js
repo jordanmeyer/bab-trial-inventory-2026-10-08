@@ -40,7 +40,7 @@ form.addEventListener('input', () => {
   results.hidden = true;
   status.textContent = 'Inputs changed. Run simulation to update the outcome.';
 });
-document.querySelector('#reset').addEventListener('click', () => {
+document.querySelector('#reset-defaults').addEventListener('click', () => {
   form.reset();
   run();
   status.textContent = 'Defaults restored. Results updated.';

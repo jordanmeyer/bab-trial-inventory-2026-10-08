@@ -7,3 +7,9 @@ Builder: Who uses this and what decision do they make? Proposed first version: l
 Simulated student: I am an MBA operations student testing a small retailer's reorder policy for one item. I agree to your lost-sales model and exact event order: arrivals at start of day, integer demand and sales, then an end-of-day order based on inventory position including outstanding stock. Place a single fixed-size order when position is at or below the reorder point. Default initial stock 10, min demand 0, max demand 8, reorder point 5, order quantity 10, lead time 2 days, horizon 30 days, seed 42. Lead time L means an order placed end of day d arrives start of day d+L. Lost demand is not backlogged. Horizon capped at 365 days, stocks/demand/orders at 10,000 units; seed nonnegative 32-bit integer. Show no-demand fill rate as N/A. I care about fill rate, unmet demand, and orders placed. A wrong result would sell stock that hasn't arrived or reorder every day because outstanding orders were ignored. Explicitly say uniform demand is a teaching assumption, not a forecast. I agree to this model; no calibration or optimization needed.
 
 Builder implementation choices: 32-bit LCG and strict whole-number validation make the agreed stochastic model reproducible. Parent authorized routine app design choices within the agreed scope. Independent hand examples, timing boundaries, conservation and a predeclared statistical sanity tolerance are recorded in PLAN.md before implementation.
+
+
+## Evaluation assumption review
+Builder: Please confirm the fixed inclusive-uniform demand, deterministic seed, and limitations: no calibration, seasonality, supplier delays, costs or optimization; this is not a forecast.
+
+Simulated student (parent coordinator relaying its response): Accepts the uniform teaching model and limitations. The browser-discovered reset bug must be repaired before final evaluation.
