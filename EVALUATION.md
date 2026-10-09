@@ -103,3 +103,8 @@ The coordinator observed a real heading overflow in the authored 200% text fixtu
 `tests/layout.html` selects a nominal 320px bordered frame, so actual inner width must be recorded. Its200% option snapshots computed fonts and doubles existing elements; it is authored text enlargement, not device zoom. New DOM created after interaction needs enlargement reapplied. Remaining gates include complete 320px and enlarged-text task inspection, saved-record download/rejection/reproduction, complete chart/table keyboard interpretation, actual screen-reader operation and an uncoached novice attempt. Participant scripts do not establish participant completion.
 
 Source/staging whitespace checks passed. Source/plan/tests were committed before this report-only addition; final relevant-source/PLAN/BUILD-STORY diffs against that checkpoint were empty, as were ordinary and ignored untracked relevant-file listings. Only this evaluation changed. No push or current live deployment check has occurred. Source/model and exercised-browser results pass within the scope above; no full checklist closure or publication approval is claimed.
+
+
+### Current-checkpoint browser suite confirmation
+
+After the source/report commits, root reran the actual browser suite against the current files: **13/13 passed, zero failures**, including the final review labels and current asset references. Source checkpoint remains `cc3f6e1d183508aa658db0ac94504f73745d87ed`; no app/model/test change followed the run. For Sales this supersedes the earlier timing limitation on the model-suite observation; the prior observation remains truthful history. This new suite result does not close pending actual layout, export, mobile-keyboard, screen-reader or novice tasks. No push occurred.
