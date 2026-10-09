@@ -6,3 +6,5 @@
 - Authorized public repository: jordanmeyer/bab-trial-inventory-2026-10-08. Parent coordinates repository creation, pushes, Pages settings, browser evaluation and live checks.
 
 - Version 2, simulated student: add one preset for the existing independent delayed-delivery example. This exposes a useful teaching sequence without changing the model or adding storage/export.
+
+- Publication correction: version the changed entry script as `app.js?v=2` to prevent a stale version-1 script being paired with new preset markup. Trigger was an observed pricing-trial cache failure, not an observed inventory failure. Keep unchanged model import stable; no build tooling.

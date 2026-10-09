@@ -21,3 +21,9 @@ Revise the agreed plan if assumptions/scope change. Build the change, inspect st
 
 ## Second publication — evaluated, awaiting live verification
 Simulated student requested the delayed-delivery example preset after the first live verification. This is an ordinary update, using the same repository and workflow. Evaluated source checkpoint: `a3bbfc08b48bb9ec7fc79b52f2376c16f9401e15`. EVALUATION.md Round 3 records passing actual preset, error recovery, keyboard/mouse, reset, narrow/desktop and 10/10 model checks. Parent authorized the ordinary second push after final freshness. Exact pushed SHA, successful workflow and live observations remain to be recorded; no second live claim is made yet.
+
+
+### Second push and preventive correction
+Second ordinary push: `183d0c9b3f8299bc6dd3ec9a9a20711755abd416`; remote main matched exactly. Evaluated checkpoint remains `a3bbfc08b48bb9ec7fc79b52f2376c16f9401e15` for that push. Final live verification has not been recorded.
+
+A separate pricing trial exposed cached version-1 JavaScript alongside version-2 HTML. No inventory cache failure had yet been observed. Because inventory also changed app.js without changing its URL, the parent requested an explicit `./app.js?v=2` entry-script URL as a preventive publication correction. The frozen plugin and deployment workflow remain unchanged. A corrective third push is authorized only after the parent's checkpoint browser retest; no final live claim or corrective push yet.
