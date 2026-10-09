@@ -71,3 +71,35 @@ After the preventive correction was prepared locally but before it was pushed, t
 Tested full commit: `6976d8aeafb902bbcead3a1695f2680ae0fda85f`; relevant paths `app/`, `tests/`, `.github/workflows/`. Parent actual browser retest observed the corrected local entry load, keyboard activation of the delayed-delivery preset with fill 75%, unmet 5, orders 3, ending 2, pending 6 and the correct independent five-day ledger. Browser tests rerun: **10 passed, 0 failed**. Prior Round 3 validation, mouse/reset and responsive checks apply to the unchanged implementation/layout; only the HTML entry-script URL changed. PLAN.md and its agreed meaning are unchanged.
 
 All source/plan freshness checks passed before and after this retest: committed/staged/unstaged relevant diffs exited 0, untracked relevant listing empty, baseline plan exists, current plan diff/status empty. No extra executable tooling introduced. The parent authorized the corrective third push. This is a passing local retest, not evidence of live cache repair; actual live acceptance after the exact corrective workflow remains required. Earlier failed live acceptance is preserved above.
+
+
+## October 9 checklist correction — source checkpoint and bounded evaluation
+
+Source checkpoint: **cc3f6e1d183508aa658db0ac94504f73745d87ed**. Relevant paths: `app/`, `tests/`, `.github/workflows/`, `PLAN.md`, `BUILD-STORY.md`. The current plan includes sample-path framing, precise inventory-position timing, controlled comparison, paginated ledger/native SVG and strict local run-record export/restore. This revision follows the real user's checklist instruction; it is not a new simulated-student approval or an observed learning outcome. Earlier failed reset/cache and passing local rounds remain above.
+
+Independent full source/model/HTML/styles/lesson review passes after three review findings were repaired: imported assumptions must be actual JSON numbers and validate before mutation; editing comparison assumptions clears its previous result; a one-day run has a closing-stock point instead of an invisible single-point polyline. Browser-history input mismatch invalidates results. Current local CSS/module URLs use version 4. The authored layout fixture is committed; workflow remains unchanged and deploys only `app/`. No charting dependency or automatic storage was added.
+
+### Actual local browser observations supplied by the coordinator
+
+The coordinator used the Codex in-app browser on the configured Mac and reported **13/13 browser model cases passed**. The delayed preset displayed the full five-row ledger, 75% fill, 15/20 sales, ending on-hand 2 and pipeline 6. The independent derivation in PLAN remains authoritative: daily arrivals 0,0,6,0,6; sales 4,1,4,2,4; closing 1,0,2,0,2; orders 6,0,6,0,6; next due 3,3,5,5,7. Thus pipeline 6 is a final-day order due day 7, not stock received inside the report.
+
+The current boundary/comparison evidence is in the course repository at `evidence/browser-app-builder/checklist-corrections/2026-10-09/inventory/browser-boundaries.json`.
+
+| Actual case | Observed fill / sales | Distinct observed explanation or state |
+| --- | --- | --- |
+| Zero demand | N/A;0/0 | No demand tested the policy; not evidence of 100% service; average closing5 |
+| Zero initial stock | 50%;10/20 | Three days with unmet demand; day 1 position0 orders 6 due day 3 |
+| Order quantity1 | 40%;8/20 | Four days with unmet demand; average closing0.2; pipeline2 |
+| Lead beyond five-day horizon | 25%;5/20 | No receipts; pipeline 6; first order due day 7 |
+| Position exactly equal to point 3 | 85%;17/20 | First decision3+0=3≤3 orders 6 |
+| One-day horizon | 100%;4/4 | Closing1, pipeline 6 due day 3; actual SVG contains one circle |
+
+Actual paired comparison held the demand path constant: point 3/order 6 gives 75%, average 1, ending 2, pipeline 6; point 6/order 6 gives 85%, average 1.4, ending 0, pipeline 12. Editing a comparison input cleared the old table and showed the pending message. For a 365-day run, 24 Next activations reached Days 361–365 with five rows and Next disabled. The complete export/restore UI task and actual one-day chart readability remain distinct from numerical/DOM observations.
+
+### Enlarged-text failure and repair
+
+The coordinator observed a real heading overflow in the authored 200% text fixture: a 319px inner frame had 419px document width. Root repaired heading wrapping and the section-title heading's minimum width; the retest reported 319px document width at 319px inner width. The failed observation is retained here. This verifies the measured overflow correction, not readability or reachability of every control in every state. A current narrow result screenshot is retained by the coordinator at `evidence/browser-app-builder/checklist-corrections/2026-10-09/inventory/narrow-result.png`.
+
+`tests/layout.html` selects a nominal 320px bordered frame, so actual inner width must be recorded. Its200% option snapshots computed fonts and doubles existing elements; it is authored text enlargement, not device zoom. New DOM created after interaction needs enlargement reapplied. Remaining gates include complete 320px and enlarged-text task inspection, saved-record download/rejection/reproduction, complete chart/table keyboard interpretation, actual screen-reader operation and an uncoached novice attempt. Participant scripts do not establish participant completion.
+
+Source/staging whitespace checks passed. Source/plan/tests were committed before this report-only addition; final relevant-source/PLAN/BUILD-STORY diffs against that checkpoint were empty, as were ordinary and ignored untracked relevant-file listings. Only this evaluation changed. No push or current live deployment check has occurred. Source/model and exercised-browser results pass within the scope above; no full checklist closure or publication approval is claimed.
