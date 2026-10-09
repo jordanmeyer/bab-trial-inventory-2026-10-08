@@ -48,3 +48,14 @@ Browser version, full network capture and 200% text zoom were not recorded. No u
 
 ## Version 2 build handoff — evaluation pending
 The simulated student requested a delayed-delivery preset after the verified first deployment. PLAN.md now includes this agreed interaction and its independent known answer. Build adds one native button and a handler that fills the eight inputs and reuses the existing run/validation/render path. No model, test, style or workflow change. Whole-file source review and a separate simplification pass found no need for a preset abstraction or an implementation-mirroring test. Existing model cases already cover the exact preset; actual mouse/keyboard activation, error clearing, reset, and narrow wrapping must be checked by the coordinator before publication.
+
+## Round 3 — version 2 passing evaluation
+Tested full commit: `a3bbfc08b48bb9ec7fc79b52f2376c16f9401e15`; paths `app/`, `tests/`, `.github/workflows/`. The committed PLAN.md includes the simulated student's agreed preset addition. Its model formulas, seed specification and earlier independent expected examples are unchanged; acceptance adds the new preset, error recovery and preserved reset behavior.
+
+Parent coordinator's actual browser observations on the no-store local preview:
+- Induced minimum 9 > maximum 8 validation error; pressed Enter on **Load delayed-delivery example**. All eight fields changed to the agreed values, errors cleared, and results became fill 75%, unmet 5, orders 3, ending stock 2, pending 6, with the exact independent five-day ledger.
+- Clicked Reset defaults, then clicked the preset: same exact five-day ledger. Reset restored the original defaults between runs.
+- Browser test page rerun: **10 passed, 0 failed**. Existing model checks cover the preset's full receipt/order sequence.
+- Rechecked iframe widths 319 and 1439: no page overflow. New button visually fit the desktop layout and stayed within the narrow width.
+
+Result: affected version 2 behavior passes. No new numerical model behavior was introduced. Source/plan freshness checked before and after the run: all three relevant-path diffs exited 0, untracked relevant listing was empty, tested PLAN.md existed and current plan diff/status were empty. Whole-project tooling inventory unchanged. Earlier failed reset round is preserved. Inspection limitations from Round 2 still apply; this round makes no additional network-capture, text-zoom or accessibility claims. Report-only changes may follow without retesting.
