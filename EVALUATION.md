@@ -44,3 +44,7 @@ Result: required model and exercised UI checks pass; ready for authorized public
 
 ### Inspection limits
 Browser version, full network capture and 200% text zoom were not recorded. No universal network-isolation or accessibility certification is claimed. Source review found local modules/styles only and no service requests, storage or remote assets. The rendered views were visually legible; computed-color contrast and full assistive-technology behavior were not instrumented. This stochastic model sanity check does not validate real retailer demand or prescribe an optimal policy.
+
+
+## Version 2 build handoff — evaluation pending
+The simulated student requested a delayed-delivery preset after the verified first deployment. PLAN.md now includes this agreed interaction and its independent known answer. Build adds one native button and a handler that fills the eight inputs and reuses the existing run/validation/render path. No model, test, style or workflow change. Whole-file source review and a separate simplification pass found no need for a preset abstraction or an implementation-mirroring test. Existing model cases already cover the exact preset; actual mouse/keyboard activation, error clearing, reset, and narrow wrapping must be checked by the coordinator before publication.

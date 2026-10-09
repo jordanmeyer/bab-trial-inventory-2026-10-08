@@ -30,3 +30,7 @@ Responsive form and results ledger, Run simulation, and Reset defaults. Values a
 
 ## Agreement
 The parent agent supplied the simulated student's explicit agreement to the model, defaults, event order, caps, lost-sales interpretation and N/A behavior on 2026-10-08. The two misleading outcomes identified were selling unavailable stock and ordering again while overlooking outstanding stock. All material model choices are resolved. Transcript is labeled simulated in SIMULATED-CONVERSATION.md. Rendered checks are coordinated by the parent agent and must be recorded as actual observations rather than inferred from source.
+
+
+## Agreed version 2 improvement
+After the first live deployment, the simulated student requested a **Load delayed-delivery example** preset to show outstanding orders in the policy. It sets initial stock 5, demand min=max=4, reorder point 3, order quantity 6, lead time 2 days, horizon 5 days, seed 42, then runs immediately. Expected output is the independently derived five-day example above: fill 75%, unmet 5, three orders, ending stock 2, outstanding 6. Daily orders are 6,0,6,0,6; arrivals are 0,0,6,0,6. No formula or assumption changes. Preset activation works by mouse and keyboard; Reset defaults still restores the original scenario. The action must clear prior field errors through the ordinary run path.

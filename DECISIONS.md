@@ -4,3 +4,5 @@
 - Seeded discrete uniform integer demand; reproducible LCG specified in the plan. N/A fill when demand is zero. No forecast or endorsement claims.
 - Native HTML/CSS/ES modules and browser tests, no dependency/runtime installs. Bundled Campus Designer guidance, local system-font substitutions, no external assets.
 - Authorized public repository: jordanmeyer/bab-trial-inventory-2026-10-08. Parent coordinates repository creation, pushes, Pages settings, browser evaluation and live checks.
+
+- Version 2, simulated student: add one preset for the existing independent delayed-delivery example. This exposes a useful teaching sequence without changing the model or adding storage/export.

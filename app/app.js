@@ -45,4 +45,10 @@ document.querySelector('#reset-defaults').addEventListener('click', () => {
   run();
   status.textContent = 'Defaults restored. Results updated.';
 });
+document.querySelector('#delayed-example').addEventListener('click', () => {
+  const example = { initial: 5, minimum: 4, maximum: 4, reorder: 3, quantity: 6, lead: 2, days: 5, seed: 42 };
+  for (const [name, value] of Object.entries(example)) form.elements[name].value = value;
+  run();
+  status.textContent = 'Delayed-delivery example loaded. Orders placed on days 1 and 3 arrive on days 3 and 5.';
+});
 run();

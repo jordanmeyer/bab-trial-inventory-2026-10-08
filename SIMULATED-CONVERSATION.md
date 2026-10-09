@@ -13,3 +13,9 @@ Builder implementation choices: 32-bit LCG and strict whole-number validation ma
 Builder: Please confirm the fixed inclusive-uniform demand, deterministic seed, and limitations: no calibration, seasonality, supplier delays, costs or optimization; this is not a forecast.
 
 Simulated student (parent coordinator relaying its response): Accepts the uniform teaching model and limitations. The browser-discovered reset bug must be repaired before final evaluation.
+
+
+## Version 2 request after live verification
+Simulated student: Add “Load delayed-delivery example” preset stock 5, min=max 4, reorder 3, quantity 6, lead 2, days 5, seed 42 to see how outstanding orders affect policy.
+
+Builder: The preset will load and run the already hand-derived five-day case. It will share the ordinary validation/rendering path, preserve Reset defaults, and change no model formulas. The parent coordinator will test the new control before the second push.
