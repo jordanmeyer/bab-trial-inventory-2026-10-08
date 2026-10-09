@@ -22,10 +22,12 @@ function ledger() {
   $('#previous').disabled=page===0;$('#next').disabled=(page+1)*15>=output.rows.length;
 }
 function timeline() {
+  const chart=$('#timeline'), width=chart.clientWidth, font=parseFloat(getComputedStyle(chart).fontSize), height=16*font;
   const max=Math.max(1,...output.rows.flatMap(r=>[r.closing,r.arrivals]));
-  const x=day=>40+(day-1)*520/Math.max(1,output.rows.length-1), y=value=>170-140*value/max;
+  const left=Math.max(3,String(max).length*.65+.75)*font, right=width-font, top=2*font, bottom=height-3*font;
+  const x=day=>left+(day-1)*(right-left)/Math.max(1,output.rows.length-1), y=value=>bottom-(bottom-top)*value/max;
   const line=output.rows.map(r=>`${x(r.day)},${y(r.closing)}`).join(' ');
-  $('#timeline').innerHTML=`<svg viewBox="0 0 600 220" role="img" aria-label="Closing stock and morning arrivals over the run. Exact values in the paginated ledger."><path d="M40 30V170H565" fill="none" stroke="#666"/><text x="4" y="35">${max}</text><text x="12" y="175">0</text><text x="40" y="200">Day 1</text><text x="490" y="200">Day ${output.rows.length}</text><polyline points="${line}" fill="none" stroke="#012169" stroke-width="3"/>${output.rows.length===1?`<circle cx="${x(1)}" cy="${y(output.rows[0].closing)}" r="5" fill="#012169"/>`:""}${output.rows.filter(r=>r.arrivals).map(r=>`<circle cx="${x(r.day)}" cy="${y(r.arrivals)}" r="4" fill="#C84E00"/>`).join('')}</svg>`;
+  chart.innerHTML=`<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Closing stock and morning arrivals in units by day. Exact values in the paginated ledger."><path d="M${left} ${top}V${bottom}H${right}" fill="none" stroke="#666"/><text x="${left}" y="${font}">Units</text><text x="${left-font/2}" y="${top+font*.35}" text-anchor="end">${max}</text><text x="${left-font/2}" y="${bottom+font*.35}" text-anchor="end">0</text><text x="${left}" y="${bottom+font*1.4}" text-anchor="middle">1</text>${output.rows.length>1?`<text x="${right}" y="${bottom+font*1.4}" text-anchor="end">${output.rows.length}</text>`:''}<text x="${(left+right)/2}" y="${height-font*.2}" text-anchor="middle">Day</text><polyline points="${line}" fill="none" stroke="#012169" stroke-width="3"/>${output.rows.length===1?`<circle cx="${x(1)}" cy="${y(output.rows[0].closing)}" r="5" fill="#012169"/>`:""}${output.rows.filter(r=>r.arrivals).map(r=>`<circle cx="${x(r.day)}" cy="${y(r.arrivals)}" r="4" fill="#C84E00"/>`).join('')}</svg>`;
 }
 function run() {
   const input=Object.fromEntries(new FormData(form)), errors=validate(input);
@@ -36,7 +38,7 @@ function run() {
   $('#run-label').textContent=`${current.days} days · Seed ${current.seed} · Demand ${current.minimum}–${current.maximum} units/day`;
   $('#summary').textContent=`${number(output.sales)} of ${number(output.demand)} units demanded were sold; ${number(output.received)} received; ${number(output.outstanding)} remain on order beyond the final day. Ending on-hand stock is separate from pipeline stock.`;
   $('#service-note').textContent=`${output.stockoutDays} of ${current.days} days had unmet demand; ${current.days-output.stockoutDays} days had none. Unit fill uses units sold ÷ units demanded, not the fraction of days without a stockout. Average closing inventory: ${number(output.averageStock)} units. ${output.demand ? '' : 'N/A is not evidence of good service: no demand tested the policy.'}`;
-  $('#comparison').replaceChildren();$('#compare-status').textContent='';ledger();timeline();results.hidden=false;
+  $('#comparison').replaceChildren();$('#compare-status').textContent='';ledger();results.hidden=false;timeline();
   status.textContent=`Run complete. Unit fill ${fill(output.fillRate)}. Use View sample-path result to inspect the answer.`;
 }
 form.addEventListener('submit',e=>{e.preventDefault();run();});
@@ -65,4 +67,5 @@ $('#restore-run').onchange=async event=>{
   try{if(file.size>1000000)throw Error('Use a run record under 1 MB.');const restored=readRunRecord(await file.text());for(const key of Object.keys(fields))form.elements[key].value=restored[key];run();status.textContent=`Restored inputs from ${file.name}; recalculated locally rather than trusting saved results.`;}
   catch(error){status.textContent=`Record rejected: ${error.message} Previous inputs and result retained.`;}event.target.value='';
 };
+new ResizeObserver(()=>{if(!results.hidden)timeline();}).observe($('#timeline'));
 run();
